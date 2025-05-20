@@ -135,7 +135,7 @@ function searchSong(input) { /*recherche*/
 }
 
 function addPlayCount(title) {
-  fetch("https://dj-azerty-blog.glitch.me/increment", { // <-- URL publique de ton serveur Glitch
+  fetch("../increment", { // <-- URL publique de ton serveur Glitch
     method: "POST",
     headers: {
       "Content-Type": "application/json",

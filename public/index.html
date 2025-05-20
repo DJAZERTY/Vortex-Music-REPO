@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="https://cdn.glitch.global/05de98a1-79c1-4327-a9f1-7d0c6536ee65/logo.png?v=1747693747727" />
+    <title>DJ AZERTY BLOG</title>
+    <link rel="stylesheet" href="default.css" />
+    <script src="script.js" defer></script>
+  </head>
+    <body>
+      <div class="header">
+        <button class="button" id="open_search" onclick="switchView('search')">🔍</button>
+        <p><strong>DJ AZERTY BLOG</strong></p>
+        <button class="button" id="open_playlist" onclick="switchView('playlist')">🎵</button>
+      </div>
+      
+      
+      <!-- Browser Container -->
+      <div id="browser" style="display:none;">
+        <div id="search-container">
+        <input type="text" id="searchBar"  placeholder="Rechercher...">
+        </div>
+        <div class="song-list" id="songList"></div>
+      </div>
+
+        <!--playlist -->
+  <div class="playlist-container" id="playlistContainer">
+        <div class="playlist-content" id="playlistContent" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <!-- Chansons ajoutées à la playlist seront affichées ici -->
+        </div>
+        <!-- Lecteur audio en bas de la playlist -->
+        <div id="audioPlayer">
+          <div id="playerTitle">No playing</div>
+          <div id="playerTime">
+            <span id="currentTime">0:00</span> / <span id="totalTime">0:00</span>
+          </div>
+          <div id="playerControls">
+            <button id="prevButton">⏮</button>
+            <button id="playPauseButton">▶</button>
+            <button id="nextButton">⏭</button>
+          </div>
+          <div id="progressContainer">
+            <div id="progressBar"></div>
+          </div>
+  
+        </div>
+        <audio id="audioElement"></audio>
+      </div>
+    </body>
+  </html>

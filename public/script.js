@@ -99,7 +99,7 @@ function searchSong(input) { /*recherche*/
 }
 
 function addPlayCount(title) {
-    fetch('https://dj-azerty-blog.glitch.me//increment', {
+    fetch('https://dj-azerty-blog.glitch.me/increment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title })

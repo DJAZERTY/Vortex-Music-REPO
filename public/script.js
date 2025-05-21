@@ -135,21 +135,30 @@ function searchSong(input) { /*recherche*/
 }
 
 function addPlayCount(title) {
-  fetch("../increment", { // <-- URL publique de ton serveur Glitch
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ title }),
-  })
-    .then((res) => res.json())
+    fetch('https://ton-projet.glitch.me/increment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title })
+    })
+    .then(async (res) => {
+        const contentType = res.headers.get('content-type');
+        if (!res.ok) {
+            const errMsg = await res.text();
+            throw new Error(`Erreur serveur: ${errMsg}`);
+        }
+        if (!contentType || !contentType.includes('application/json')) {
+            throw new Error('Réponse non-JSON reçue.');
+        }
+        return res.json();
+    })
     .then((data) => {
-      console.log(data.message || data.error);
+        console.log(data.message || data.error);
     })
     .catch((error) => {
-      console.error("Erreur PlayCount :", error);
+        console.error("Erreur PlayCount :", error.message || error);
     });
 }
+
 
 
 

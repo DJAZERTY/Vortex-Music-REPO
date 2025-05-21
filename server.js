@@ -5,12 +5,10 @@ const { parse } = require('json2csv');
 const app = express();
 
 app.use(express.static('public'));
-
 app.use(express.json());
 
 const CSV_PATH = 'db.csv';
 
-// 🔁 Route pour incrémenter un PlayCount
 app.post('/increment', (req, res) => {
     const { title } = req.body;
 
@@ -20,7 +18,6 @@ app.post('/increment', (req, res) => {
 
     let data = [];
 
-    // Lire le CSV
     fs.createReadStream(CSV_PATH)
         .pipe(csv())
         .on('data', (row) => {
@@ -29,7 +26,6 @@ app.post('/increment', (req, res) => {
         .on('end', () => {
             let found = false;
 
-            // Mettre à jour la bonne ligne
             data = data.map((row) => {
                 if (row.Title === title) {
                     found = true;
@@ -42,12 +38,20 @@ app.post('/increment', (req, res) => {
                 return res.status(404).json({ error: 'Chanson non trouvée.' });
             }
 
-            // Réécrire le CSV
-            const updatedCsv = parse(data, { fields: Object.keys(data[0]) });
-            fs.writeFile(CSV_PATH, updatedCsv, (err) => {
-                if (err) return res.status(500).json({ error: 'Erreur lors de l\'écriture du CSV.' });
-                return res.json({ message: `PlayCount incrémenté pour "${title}".` });
-            });
+            try {
+                const updatedCsv = parse(data, { fields: Object.keys(data[0]) });
+                fs.writeFile(CSV_PATH, updatedCsv, (err) => {
+                    if (err) {
+                        return res.status(500).json({ error: 'Erreur lors de l\'écriture du CSV.' });
+                    }
+                    return res.json({ message: `PlayCount incrémenté pour "${title}".` });
+                });
+            } catch (err) {
+                return res.status(500).json({ error: 'Erreur lors de la conversion CSV.' });
+            }
+        })
+        .on('error', (err) => {
+            return res.status(500).json({ error: 'Erreur lors de la lecture du CSV.' });
         });
 });
 

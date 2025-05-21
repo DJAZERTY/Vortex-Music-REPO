@@ -1,13 +1,13 @@
 @font-face {
   font-family: 'Neon';
-  src: url('https://cdn.glitch.global/cefd793b-5fb5-4078-b9e3-0461a20468dd/Neon.woff2?v=1747794828842') format('truetype');
+  src: url('https://cdn.glitch.global/cefd793b-5fb5-4078-b9e3-0461a20468dd/Neon.woff2?v=1747795246672') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 
 body{
  background-color: #0a0a0a;
- font-family: 'Neon', sans-serif;
+ font-family: 'Neon';
 
 }
 
@@ -226,6 +226,11 @@ body{
 
 #playerTime {
     margin: 10px 0;
+}
+
+#playerTime .span{
+    font-family:'Neon';
+    font-size:32px;
 }
 
 #playerControls {

@@ -16,7 +16,12 @@ app.get('/data', (req, res) => {
   const results = [];
   fs.createReadStream(CSV_PATH)
     .pipe(csv())
-    .on('data', (data) => results.push(data))
+    .on('data', (data) => {
+      // Conversion des types utiles ici
+      data.PlayCount = parseInt(data.PlayCount || '0', 10);
+      data.ReleaseDate = new Date(data.ReleaseDate);
+      results.push(data);
+    })
     .on('end', () => res.json(results))
     .on('error', (err) => res.status(500).json({ error: 'Erreur lecture CSV.' }));
 });
@@ -34,6 +39,8 @@ app.post('/increment', (req, res) => {
   fs.createReadStream(CSV_PATH)
     .pipe(csv())
     .on('data', (row) => {
+      // Parse PlayCount en entier pour pouvoir incrémenter
+      row.PlayCount = parseInt(row.PlayCount || '0', 10);
       data.push(row);
     })
     .on('end', () => {
@@ -42,7 +49,7 @@ app.post('/increment', (req, res) => {
       data = data.map((row) => {
         if (row.Title === title) {
           found = true;
-          row.PlayCount = (parseInt(row.PlayCount || '0', 10) + 1).toString();
+          row.PlayCount += 1;  // incrément numérique
         }
         return row;
       });
@@ -52,7 +59,15 @@ app.post('/increment', (req, res) => {
       }
 
       try {
+        // Convertit à nouveau PlayCount en chaîne car CSV est texte
+        data = data.map(row => ({
+          ...row,
+          PlayCount: row.PlayCount.toString(),
+          ReleaseDate: row.ReleaseDate.toISOString().slice(0,10) // pour garder format AAAA-MM-JJ simple
+        }));
+
         const updatedCsv = parse(data, { fields: Object.keys(data[0]) });
+
         fs.writeFile(CSV_PATH, updatedCsv, (err) => {
           if (err) {
             return res.status(500).json({ error: 'Erreur lors de l\'écriture du CSV.' });

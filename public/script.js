@@ -1,21 +1,32 @@
 let csvData = [];
 
-async function loadCSVData() {
+async function loadCSVData() {  // charge les données JSON depuis l’API
   try {
-    const response = await fetch('/data'); // API JSON
+    const response = await fetch('/data');
     if (!response.ok) throw new Error('Erreur HTTP : ' + response.status);
 
-    csvData = await response.json();
+    const jsonData = await response.json();
+
+    // Ici les types sont déjà corrigés côté serveur,
+    // sinon on peut refaire une conversion côté client si besoin :
+    csvData = jsonData.map(item => ({
+      ...item,
+      PlayCount: Number(item.PlayCount),
+    }));
 
     console.log('Données stockées:', csvData);
 
-    displaySongs(csvData);
+    displaySongs(csvData);  // Appel ici, après chargement
+
   } catch (error) {
     console.error('Erreur:', error);
   }
 }
 
-// Plus besoin de parseCSV puisque le serveur renvoie du JSON
+document.addEventListener('DOMContentLoaded', () => {
+  loadCSVData();
+});
+
 
 // Appel initial après chargement DOM
 document.addEventListener('DOMContentLoaded', () => {

@@ -21,6 +21,10 @@ async function loadCSVData() {
 document.addEventListener('DOMContentLoaded', () => {
   loadCSVData();
 });
+document.getElementById('searchBar').addEventListener('input', (event) => {
+  searchSong(event.target.value);
+});
+
 
                                         // affiche les chansson dans le browser
 function displaySongs(data) {

@@ -1,63 +1,27 @@
 let csvData = [];
 
-async function loadCSVData() {      // charge les données csv
+async function loadCSVData() {
   try {
-    const response = await fetch('../db.csv');
+    const response = await fetch('/data'); // API JSON
     if (!response.ok) throw new Error('Erreur HTTP : ' + response.status);
 
-    const csvText = await response.text();
-    csvData = parseCSV(csvText);
+    csvData = await response.json();
 
     console.log('Données stockées:', csvData);
 
-    displaySongs(csvData);  // Appel ici, après chargement
-
+    displaySongs(csvData);
   } catch (error) {
     console.error('Erreur:', error);
   }
 }
 
+// Plus besoin de parseCSV puisque le serveur renvoie du JSON
+
+// Appel initial après chargement DOM
 document.addEventListener('DOMContentLoaded', () => {
   loadCSVData();
 });
 
-document.getElementById('searchBar').addEventListener('input', (event) => {
-  searchSong(event.target.value);
-});
-
-document.querySelector('.header').addEventListener('click', (event) => {
-  // Si le clic n’est PAS sur un bouton (ni un enfant de bouton)
-  if (!event.target.closest('button')) {
-    switchView('home');
-  }
-});
-
-
-
-
-function parseCSV(csvText) {             // converti les données du csv en tableau javasrcipt
-  if (!csvText) return [];
-
-  const lines = csvText.trim().split('\n');
-  if (lines.length < 2) return [];
-
-  const headers = lines[0].split(',');
-
-  return lines.slice(1).map(line => {
-    const values = line.split(',');
-    const obj = {};
-    headers.forEach((header, i) => {
-      if (header === 'PlayCount') {
-        obj[header] = parseInt(values[i], 10) || 0;
-      } else if (header === 'ReleaseDate') {
-        obj[header] = new Date(values[i]);
-      } else {
-        obj[header] = values[i];
-      }
-    });
-    return obj;
-  });
-}
                                         // affiche les chansson dans le browser
 function displaySongs(data) {
   const songList = document.getElementById('songList');
@@ -135,7 +99,7 @@ function searchSong(input) { /*recherche*/
 }
 
 function addPlayCount(title) {
-    fetch('https://ton-projet.glitch.me/increment', {
+    fetch('https://dj-azerty-blog.glitch.me//increment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title })

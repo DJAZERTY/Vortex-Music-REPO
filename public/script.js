@@ -215,6 +215,11 @@ function dragOver(e) {
     e.dataTransfer.dropEffect = 'move';
 }
 
+function allowDrop(event) {
+  event.preventDefault();
+}
+
+
 function drop(e) {
     e.preventDefault();
     if (dragSrcEl !== this) {
@@ -223,16 +228,26 @@ function drop(e) {
         let srcIndex = children.indexOf(dragSrcEl);
         let targetIndex = children.indexOf(this);
 
-        // Réordonner les éléments dans le DOM
-        if (srcIndex < targetIndex) {
-            playlistContent.insertBefore(dragSrcEl, this.nextSibling);
+        // Si targetIndex invalide, on ajoute à la fin
+        if (targetIndex === -1) {
+            playlistContent.appendChild(dragSrcEl);
         } else {
-            playlistContent.insertBefore(dragSrcEl, this);
+            if (srcIndex < targetIndex) {
+                if (this.nextSibling) {
+                    playlistContent.insertBefore(dragSrcEl, this.nextSibling);
+                } else {
+                    playlistContent.appendChild(dragSrcEl);
+                }
+            } else {
+                playlistContent.insertBefore(dragSrcEl, this);
+            }
         }
         dragSrcEl.style.opacity = "1";
         savePlaylist();
     }
 }
+
+
 
 function dragEnter(e) {
     this.style.backgroundColor = '#444';

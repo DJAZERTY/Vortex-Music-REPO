@@ -5,6 +5,8 @@ const { parse } = require('json2csv');
 const app = express();
 
 app.use(express.json());
+app.use(express.static('public'));
+
 
 const CSV_PATH = 'db.csv';
 

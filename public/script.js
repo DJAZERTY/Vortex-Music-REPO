@@ -1,3 +1,5 @@
+/*Data function */
+
 let csvData = [];
 
 async function loadCSVData() {
@@ -132,6 +134,14 @@ function addPlayCount(title) {
 
 
 /*Main function*/
+
+function headerClick(event) {
+  // Si le clic vient directement de la div .header (et non d'un de ses enfants)
+  if (event.target === event.currentTarget) {
+    switchView('home');
+  }
+}
+
 
 
 function switchView(view) {

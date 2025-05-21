@@ -1,1 +1,20 @@
-{}
+{
+  "name": "dj-azerty-blog",
+  "version": "1.0.0",
+  "description": "Serveur Express pour gestion des playcounts",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "csv-parser": "^3.2.0",
+    "json2csv": "^5.0.7"
+  },
+  "engines": {
+    "node": ">=14"
+  },
+  "author": "TonNom",
+  "license": "MIT"
+}

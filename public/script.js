@@ -135,14 +135,6 @@ function addPlayCount(title) {
 
 /*Main function*/
 
-function headerClick(event) {
-  // Si le clic vient directement de la div .header (et non d'un de ses enfants)
-  if (event.target === event.currentTarget) {
-    switchView('home');
-  }
-}
-
-
 
 function switchView(view) {
   // On ferme tout d'abord tout
@@ -156,6 +148,14 @@ function switchView(view) {
     // rien à ouvrir, on reste sur l'accueil
   } else if (view === "playlist") {
     openPlaylist();
+  }
+}
+
+
+function headerClick(event) {
+  // Si le clic vient directement de la div .header (et non d'un de ses enfants)
+  if (event.target === event.currentTarget) {
+    switchView('home');
   }
 }
 

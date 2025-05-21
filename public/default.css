@@ -186,8 +186,17 @@ body{
     cursor: grabbing;
 }
 
-#playlistContent .song p, #playerTitle {
-    margin-left: -10px;
+#playlistContent .song p {
+    margin-left: 10px;
+    font-family: "Neon";
+    font-size:30px;
+    color: #0ff;
+    padding-left: 10px;
+    align-self:center;
+}
+
+#playerTitle {
+    margin-left: -6px;
     font-family: "Neon";
     font-size:30px;
     color: #0ff;

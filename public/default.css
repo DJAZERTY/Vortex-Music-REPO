@@ -20,8 +20,9 @@ body{
     width:100%;
     height: 75px;
     font-size: 25px;
-    color: #0ff;
-    font-family: 'Comic sans MS';
+    color:#0ff;
+    font-family:'Neon';
+    font-size:40px;
     display: flex;
     justify-content:space-between;
     align-items: center;
@@ -67,7 +68,8 @@ body{
   border: none;
   border-radius: 25px;
   box-shadow: 0 0 10px  #0ff;
-  font-size: 16px;
+  font-family:'Neon';
+  font-size: 20px;
   background-color: #0a0a0a;
   color: white;
   outline: none;
@@ -117,9 +119,9 @@ body{
 }
 
 #browser #songList .song p{
-  font-family: 'Comic sans MS';
+  font-family: 'Neon';
   color:#0ff;
-  font-size: 20px;
+  font-size: 30px;
 }
 
 #browser #songList .song .buttons-div{
@@ -186,7 +188,7 @@ body{
 
 #playlistContent .song p, #playerTitle {
     margin-left: -10px;
-    font-family: "comic sans MS";
+    font-family: "Neon";
     color: #0ff;
     padding-left: 10px;
     align-self:center;
@@ -228,7 +230,7 @@ body{
     margin: 10px 0;
 }
 
-#playerTime .span{
+#currentTime, #totalTime, #playerTime{
     font-family:'Neon';
     font-size:32px;
 }

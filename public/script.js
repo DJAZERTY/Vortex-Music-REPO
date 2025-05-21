@@ -1,31 +1,20 @@
 let csvData = [];
 
-async function loadCSVData() {  // charge les données JSON depuis l’API
+async function loadCSVData() {
   try {
     const response = await fetch('/data');
     if (!response.ok) throw new Error('Erreur HTTP : ' + response.status);
 
-    const jsonData = await response.json();
-
-    // Ici les types sont déjà corrigés côté serveur,
-    // sinon on peut refaire une conversion côté client si besoin :
-    csvData = jsonData.map(item => ({
-      ...item,
-      PlayCount: Number(item.PlayCount),
-    }));
+    const data = await response.json();
+    csvData = data; // Tu reçois un tableau d’objets JSON
 
     console.log('Données stockées:', csvData);
 
-    displaySongs(csvData);  // Appel ici, après chargement
-
+    displaySongs(csvData);
   } catch (error) {
     console.error('Erreur:', error);
   }
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-  loadCSVData();
-});
 
 
 // Appel initial après chargement DOM
@@ -226,9 +215,6 @@ function dragOver(e) {
     e.dataTransfer.dropEffect = 'move';
 }
 
-function allowDrop(event) {
-  event.preventDefault();
-}
 
 
 function drop(e) {
@@ -239,25 +225,19 @@ function drop(e) {
         let srcIndex = children.indexOf(dragSrcEl);
         let targetIndex = children.indexOf(this);
 
-        // Si targetIndex invalide, on ajoute à la fin
-        if (targetIndex === -1) {
-            playlistContent.appendChild(dragSrcEl);
-        } else {
-            if (srcIndex < targetIndex) {
-                if (this.nextSibling) {
-                    playlistContent.insertBefore(dragSrcEl, this.nextSibling);
-                } else {
-                    playlistContent.appendChild(dragSrcEl);
-                }
+        if (srcIndex < targetIndex) {
+            if (this.nextSibling) {
+                playlistContent.insertBefore(dragSrcEl, this.nextSibling);
             } else {
-                playlistContent.insertBefore(dragSrcEl, this);
+                playlistContent.appendChild(dragSrcEl);
             }
+        } else {
+            playlistContent.insertBefore(dragSrcEl, this);
         }
         dragSrcEl.style.opacity = "1";
         savePlaylist();
     }
 }
-
 
 
 function dragEnter(e) {

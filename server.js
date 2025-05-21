@@ -4,9 +4,9 @@ const csv = require('csv-parser');
 const { parse } = require('json2csv');
 const app = express();
 
-app.use(express.json());
 app.use(express.static('public'));
 
+app.use(express.json());
 
 const CSV_PATH = 'db.csv';
 

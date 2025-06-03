@@ -22,8 +22,32 @@
         </div>
         <div class="song-list" id="songList"></div>
       </div>
+
+        <!--playlist -->
+  <div class="playlist-container" id="playlistContainer">
+        <div class="playlist-content" id="playlistContent" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <!-- Chansons ajoutées à la playlist seront affichées ici -->
+        </div>
+        <!-- Lecteur audio en bas de la playlist -->
+        <div id="audioPlayer">
+          <div id="playerTitle">No playing</div>
+          <div id="playerTime">
+            <span id="currentTime">0:00</span> / <span id="totalTime">0:00</span>
+          </div>
+          <div id="playerControls">
+            <button id="prevButton">⏮</button>
+            <button id="playPauseButton">▶</button>
+            <button id="nextButton">⏭</button>
+          </div>
+          <div id="progressContainer">
+            <div id="progressBar"></div>
+          </div>
+  
+        </div>
+        <audio id="audioElement"></audio>
+      </div>
       
-      <div class="home">
+            <div class="home">
         <h1>Bienvenue sur mon site</h1>
         <div class="stack-box">
         <p>Une escale entre pulsations électroniques et paysages imaginaires. Ici, chaque son raconte une histoire, chaque titre allume une lumière dans la nuit.</p>
@@ -48,29 +72,5 @@
           </div>
         </div>
       </div>
-
-        <!--playlist -->
-  <div class="playlist-container" id="playlistContainer">
-        <div class="playlist-content" id="playlistContent" ondrop="drop(event)" ondragover="allowDrop(event)">
-        <!-- Chansons ajoutées à la playlist seront affichées ici -->
-        </div>
-        <!-- Lecteur audio en bas de la playlist -->
-        <div id="audioPlayer">
-          <div id="playerTitle">No playing</div>
-          <div id="playerTime">
-            <span id="currentTime">0:00</span> / <span id="totalTime">0:00</span>
-          </div>
-          <div id="playerControls">
-            <button id="prevButton">⏮</button>
-            <button id="playPauseButton">▶</button>
-            <button id="nextButton">⏭</button>
-          </div>
-          <div id="progressContainer">
-            <div id="progressBar"></div>
-          </div>
-  
-        </div>
-        <audio id="audioElement"></audio>
-      </div>      
     </body>
   </html>

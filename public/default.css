@@ -30,7 +30,7 @@ body{
     z-index: 1000;
 }
 
-#open_search{
+#open_search, .sim_open_search{
     margin-left: 5%;
     background-color: #0ff;
     border-radius: 5px ;

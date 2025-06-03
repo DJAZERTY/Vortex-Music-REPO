@@ -36,7 +36,7 @@ body{
     border-radius: 5px ;
 }
 
-#open_playlist{
+#open_playlist, .sim_playlist{
     margin-right: 5%;
     background-color: #0ff;
     border-radius: 5px ;
@@ -130,7 +130,7 @@ body{
     gap: 10px;
 }
 
-#browser #songList .song .buttons-div button{
+#browser #songList .song .buttons-div button, .sim_music{
     background-color: #0ff;
     border-radius: 15px;
 }

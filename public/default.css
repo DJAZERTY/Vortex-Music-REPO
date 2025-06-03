@@ -278,3 +278,23 @@ body{
     background: #00ffcc;
     transition: width 0.1s;
 }
+
+
+/* accueil */
+
+.home{
+    margin-top: 100px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+.home p{
+    font-family : "Arial"
+    font-size: 25px;
+    color:#0ff;
+  
+  
+}

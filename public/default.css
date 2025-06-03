@@ -311,3 +311,27 @@ body{
     font-size: 21px;
     color:#0ff;
 }
+
+.stack-box {
+  background: rgba(20, 10, 30, 0.9); /* fond sombre légèrement translucide */
+  border: 1px solid #8a00ff;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 20px auto;
+  width: 90%;
+  max-width: 600px;
+  font-family: 'Neon', sans-serif;
+  font-size: 18px;
+  line-height: 1.3; /* interligne assez proche */
+  color: #0ff;
+  box-shadow: 0 0 10px #8a00ff88;
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* espacement léger entre les blocs de texte/images */
+}
+
+.stack-box img {
+  height: 1.2em;
+  vertical-align: middle;
+  margin: 0 4px;
+}

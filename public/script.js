@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('sortOrderToggle').addEventListener('click', function() {
     sortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
-    document.getElementById('sortOrderToggle').textContent = sortOrder === 'asc' ? '⬆️' : '⬇️';
+    document.getElementById('sortOrderToggle').textContent = sortOrder === 'asc' ? '⬇️' : '⬆️';
     sortSongs();
   });
 });

@@ -378,3 +378,32 @@ body{
 .custom-alert-content button:hover {
   background-color: #8a00ff;
 }
+
+
+/* search bar*/ 
+
+.sort-select {
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #0a0a0a;
+  color: white;
+  border: 1px solid #0ff;
+  margin-right: 10px;
+}
+
+.sort-order-toggle {
+  background-color: #0ff;
+  border: none;
+  border-radius: 5px;
+  color: black;
+  padding: 10px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+#search-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 100px;
+}

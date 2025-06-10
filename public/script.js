@@ -36,7 +36,41 @@ function showCustomAlert(message) {
 }
 
 
-                                        // affiche les chansson dans le browser
+
+document.addEventListener('DOMContentLoaded', () => {
+  loadCSVData();
+
+  document.getElementById('searchBar').addEventListener('input', (event) => {
+    searchSong(event.target.value);
+  });
+
+  document.getElementById('sortSelect').addEventListener('change', sortSongs);
+
+  document.getElementById('sortOrderToggle').addEventListener('click', function() {
+    sortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
+    document.getElementById('sortOrderToggle').textContent = sortOrder === 'asc' ? '↑' : '↓';
+    sortSongs();
+  });
+});
+
+let csvData = [];
+let sortOrder = 'desc';
+
+async function loadCSVData() {
+  try {
+    const response = await fetch('/data');
+    if (!response.ok) throw new Error('Erreur HTTP : ' + response.status);
+
+    const data = await response.json();
+    csvData = data;
+    console.log('Données stockées:', csvData);
+
+    sortSongs(); // Initial sorting
+  } catch (error) {
+    console.error('Erreur:', error);
+  }
+}
+
 function displaySongs(data) {
   const songList = document.getElementById('songList');
   if (!songList) {
@@ -51,42 +85,39 @@ function displaySongs(data) {
     return;
   }
 
-  data.forEach(song => { // parcour aux nombres de ligne chansons pour créer les chansons
-    
-    
+  data.forEach(song => {
     const songDiv = document.createElement('div');
     songDiv.classList.add('song');
 
-    const img = document.createElement('img');  // Images
-    img.src = song.Png || 'https://cdn.glitch.global/05de98a1-79c1-4327-a9f1-7d0c6536ee65/logo.png?v=1747693747727'; // image par défaut si aucune
+    const img = document.createElement('img');
+    img.src = song.Png || 'https://cdn.glitch.global/05de98a1-79c1-4327-a9f1-7d0c6536ee65/logo.png?v=1747693747727';
     img.alt = song.Title || 'Artwork';
     img.classList.add('song-image');
-    
-    
-    const buttonsDiv = document.createElement('div'); // Div pour les bouttons
+
+    const buttonsDiv = document.createElement('div');
     buttonsDiv.classList.add('buttons-div');
-    
-    const playButton = document.createElement('button'); // Bouton d'ajout pour playlist
+
+    const playButton = document.createElement('button');
     playButton.textContent = '➕';
     playButton.addEventListener('click', () => {
-    addToPlaylist(song.Title,song.Mp3);
-    showCustomAlert(`"${song.Title}" ajoute a la playlist 🎵`);
-  });
-    
-    const clipButton = document.createElement('button'); // Bouton (lien) vers clip (Youtube)
+      addToPlaylist(song.Title, song.Mp3);
+      showCustomAlert(`"${song.Title}" ajouté à la playlist 🎵`);
+    });
+
+    const clipButton = document.createElement('button');
     clipButton.textContent = '🎬';
     clipButton.addEventListener('click', () => {
-    window.open(`${song.Mp4}`, '_blank')
-  });
+      window.open(song.Mp4, '_blank');
+    });
 
-    const title = document.createElement('p')
-    title.textContent = `${song.Title}`;
-    title.classList.add('song-title')
+    const title = document.createElement('p');
+    title.textContent = song.Title;
+    title.classList.add('song-title');
 
-    buttonsDiv.appendChild(playButton); // Imbriquement
+    buttonsDiv.appendChild(playButton);
     buttonsDiv.appendChild(clipButton);
 
-    songDiv.appendChild(img)
+    songDiv.appendChild(img);
     songDiv.appendChild(title);
     songDiv.appendChild(buttonsDiv);
 
@@ -94,7 +125,41 @@ function displaySongs(data) {
   });
 }
 
-  displaySongs(csvData)
+function sortSongs() {
+  const sortBy = document.getElementById('sortSelect').value;
+  const sortedData = [...csvData].sort((a, b) => {
+    let comparison = 0;
+    if (sortBy === 'Title') {
+      comparison = a.Title.localeCompare(b.Title);
+    } else if (sortBy === 'ReleaseDate') {
+      comparison = new Date(a.ReleaseDate) - new Date(b.ReleaseDate);
+    } else if (sortBy === 'PlayCount') {
+      comparison = a.PlayCount - b.PlayCount;
+    } else if (sortBy === 'Time') {
+      const timeA = a.Time.split(':').reduce((acc, time) => acc * 60 + parseInt(time, 10), 0);
+      const timeB = b.Time.split(':').reduce((acc, time) => acc * 60 + parseInt(time, 10), 0);
+      comparison = timeA - timeB;
+    }
+    return sortOrder === 'asc' ? comparison : -comparison;
+  });
+  displaySongs(sortedData);
+}
+
+function searchSong(input) {
+  const searchTerm = input.trim().toLowerCase();
+  if (!searchTerm) {
+    sortSongs(); // Re-sort the songs if search is cleared
+    return;
+  }
+
+  const filteredSongs = csvData.filter(song => {
+    const title = (song.Title || '').toLowerCase();
+    return title.includes(searchTerm);
+  });
+
+  displaySongs(filteredSongs);
+}
+
 
 
 function searchSong(input) { /*recherche*/

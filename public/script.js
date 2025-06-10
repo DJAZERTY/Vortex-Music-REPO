@@ -1,58 +1,3 @@
-/*Data function */
-
-let csvData = [];
-
-async function loadCSVData() {
-  try {
-    const response = await fetch('/data');
-    if (!response.ok) throw new Error('Erreur HTTP : ' + response.status);
-
-    const data = await response.json();
-    csvData = data; // Tu reçois un tableau d’objets JSON
-
-    console.log('Données stockées:', csvData);
-
-    displaySongs(csvData);
-  } catch (error) {
-    console.error('Erreur:', error);
-  }
-}
-
-
-// Appel initial après chargement DOM
-document.addEventListener('DOMContentLoaded', () => {
-  loadCSVData();
-});
-document.getElementById('searchBar').addEventListener('input', (event) => {
-  searchSong(event.target.value);
-});
-
-
-function showCustomAlert(message) {
-  const customAlert = document.getElementById('customAlert');
-  const customAlertMessage = document.getElementById('customAlertMessage');
-  customAlertMessage.textContent = message;
-  customAlert.style.display = 'flex';
-}
-
-
-
-document.addEventListener('DOMContentLoaded', () => {
-  loadCSVData();
-
-  document.getElementById('searchBar').addEventListener('input', (event) => {
-    searchSong(event.target.value);
-  });
-
-  document.getElementById('sortSelect').addEventListener('change', sortSongs);
-
-  document.getElementById('sortOrderToggle').addEventListener('click', function() {
-    sortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
-    document.getElementById('sortOrderToggle').textContent = sortOrder === 'asc' ? '↑' : '↓';
-    sortSongs();
-  });
-});
-
 let csvData = [];
 let sortOrder = 'desc';
 
@@ -69,6 +14,13 @@ async function loadCSVData() {
   } catch (error) {
     console.error('Erreur:', error);
   }
+}
+
+function showCustomAlert(message) {
+  const customAlert = document.getElementById('customAlert');
+  const customAlertMessage = document.getElementById('customAlertMessage');
+  customAlertMessage.textContent = message;
+  customAlert.style.display = 'flex';
 }
 
 function displaySongs(data) {
@@ -148,7 +100,7 @@ function sortSongs() {
 function searchSong(input) {
   const searchTerm = input.trim().toLowerCase();
   if (!searchTerm) {
-    sortSongs(); // Re-sort the songs if search is cleared
+    sortSongs();
     return;
   }
 
@@ -160,79 +112,63 @@ function searchSong(input) {
   displaySongs(filteredSongs);
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+  loadCSVData();
 
-
-function searchSong(input) { /*recherche*/
-  const searchTerm = input.trim().toLowerCase();
-
-  if (!searchTerm) {
-    displaySongs(csvData); // Si rien tapé, on réaffiche tout
-    return;
-  }
-
-  const filteredSongs = csvData.filter(song => {
-    const title = (song.Title || '').toLowerCase();
-    return title.includes(searchTerm);
+  document.getElementById('searchBar').addEventListener('input', (event) => {
+    searchSong(event.target.value);
   });
 
-  displaySongs(filteredSongs);
-}
+  document.getElementById('sortSelect').addEventListener('change', sortSongs);
+
+  document.getElementById('sortOrderToggle').addEventListener('click', function() {
+    sortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
+    document.getElementById('sortOrderToggle').textContent = sortOrder === 'asc' ? '↑' : '↓';
+    sortSongs();
+  });
+});
 
 function addPlayCount(title) {
-    fetch('https://dj-azerty-blog.glitch.me/increment', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title })
-    })
-    .then(async (res) => {
-        const contentType = res.headers.get('content-type');
-        if (!res.ok) {
-            const errMsg = await res.text();
-            throw new Error(`Erreur serveur: ${errMsg}`);
-        }
-        if (!contentType || !contentType.includes('application/json')) {
-            throw new Error('Réponse non-JSON reçue.');
-        }
-        return res.json();
-    })
-    .then((data) => {
-        console.log(data.message || data.error);
-    })
-    .catch((error) => {
-        console.error("Erreur PlayCount :", error.message || error);
-    });
+  fetch('https://dj-azerty-blog.glitch.me/increment', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ title })
+  })
+  .then(async (res) => {
+    const contentType = res.headers.get('content-type');
+    if (!res.ok) {
+      const errMsg = await res.text();
+      throw new Error(`Erreur serveur: ${errMsg}`);
+    }
+    if (!contentType || !contentType.includes('application/json')) {
+      throw new Error('Réponse non-JSON reçue.');
+    }
+    return res.json();
+  })
+  .then((data) => {
+    console.log(data.message || data.error);
+  })
+  .catch((error) => {
+    console.error("Erreur PlayCount :", error.message || error);
+  });
 }
 
-
-
-
-
-/*Main function*/
-
-
 function switchView(view) {
-  // On ferme tout d'abord tout
   closeBrowser();
   closePlaylist();
 
-  // Puis on ouvre ce qu'il faut selon le bouton
   if (view === "search") {
     openBrowser();
-  } else if (view === "home") {
-    // rien à ouvrir, on reste sur l'accueil
   } else if (view === "playlist") {
     openPlaylist();
   }
 }
 
-
 function headerClick(event) {
-  // Si le clic vient directement de la div .header (et non d'un de ses enfants)
   if (event.target === event.currentTarget) {
     switchView('home');
   }
 }
-
 
 function openBrowser() {
   document.getElementById("browser").style.display = "block";
@@ -252,98 +188,133 @@ function closePlaylist() {
   document.body.classList.remove("noscroll");
 }
 
-/* playlist function*/
-
-
 document.addEventListener("DOMContentLoaded", function () {
-    loadPlaylist();
+  loadPlaylist();
 });
 
 function addToPlaylist(songTitle, songSrc) {
-    let playlistContent = document.getElementById("playlistContent");
+  let playlistContent = document.getElementById("playlistContent");
 
-    // Vérifier si la chanson est déjà dans la playlist
-    if ([...playlistContent.children].some(song => song.getAttribute("data-src") === songSrc)) {
-        return;
-    }
+  if ([...playlistContent.children].some(song => song.getAttribute("data-src") === songSrc)) {
+    return;
+  }
 
-    let songDiv = document.createElement("div");
-    songDiv.classList.add("song");
-    songDiv.setAttribute("draggable", "true");
-    songDiv.setAttribute("data-src", songSrc);
-    songDiv.innerHTML = `<p>${songTitle}</p>
-                         <button onclick="removeFromPlaylist(this)">Retirer</button>`;
+  let songDiv = document.createElement("div");
+  songDiv.classList.add("song");
+  songDiv.setAttribute("draggable", "true");
+  songDiv.setAttribute("data-src", songSrc);
+  songDiv.innerHTML = `<p>${songTitle}</p>
+                       <button onclick="removeFromPlaylist(this)">Retirer</button>`;
 
-    addDragAndDropEvents(songDiv);
+  addDragAndDropEvents(songDiv);
 
-    playlistContent.appendChild(songDiv);
-    savePlaylist();
+  playlistContent.appendChild(songDiv);
+  savePlaylist();
 }
 
-
 function addDragAndDropEvents(songDiv) {
-    songDiv.addEventListener('dragstart', dragStart);
-    songDiv.addEventListener('dragover', dragOver);
-    songDiv.addEventListener('drop', drop);
-    songDiv.addEventListener('dragenter', dragEnter);
-    songDiv.addEventListener('dragleave', dragLeave);
+  songDiv.addEventListener('dragstart', dragStart);
+  songDiv.addEventListener('dragover', dragOver);
+  songDiv.addEventListener('drop', drop);
+  songDiv.addEventListener('dragenter', dragEnter);
+  songDiv.addEventListener('dragleave', dragLeave);
 }
 
 let dragSrcEl = null;
 
 function dragStart(e) {
-    dragSrcEl = this;
-    e.dataTransfer.effectAllowed = 'move';
-    e.dataTransfer.setData('text/plain', null); // Nécessaire pour Firefox
-    this.style.opacity = "0.5";
+  dragSrcEl = this;
+  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('text/plain', null);
+  this.style.opacity = "0.5";
 }
 
 function dragOver(e) {
-    e.preventDefault();
-    e.dataTransfer.dropEffect = 'move';
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
 }
-
-
 
 function drop(e) {
-    e.preventDefault();
-    if (dragSrcEl !== this) {
-        let playlistContent = document.getElementById("playlistContent");
-        let children = [...playlistContent.children];
-        let srcIndex = children.indexOf(dragSrcEl);
-        let targetIndex = children.indexOf(this);
+  e.preventDefault();
+  if (dragSrcEl !== this) {
+    let playlistContent = document.getElementById("playlistContent");
+    let children = [...playlistContent.children];
+    let srcIndex = children.indexOf(dragSrcEl);
+    let targetIndex = children.indexOf(this);
 
-        if (srcIndex < targetIndex) {
-            if (this.nextSibling) {
-                playlistContent.insertBefore(dragSrcEl, this.nextSibling);
-            } else {
-                playlistContent.appendChild(dragSrcEl);
-            }
-        } else {
-            playlistContent.insertBefore(dragSrcEl, this);
-        }
-        dragSrcEl.style.opacity = "1";
-        savePlaylist();
+    if (srcIndex < targetIndex) {
+      if (this.nextSibling) {
+        playlistContent.insertBefore(dragSrcEl, this.nextSibling);
+      } else {
+        playlistContent.appendChild(dragSrcEl);
+      }
+    } else {
+      playlistContent.insertBefore(dragSrcEl, this);
     }
+    dragSrcEl.style.opacity = "1";
+    savePlaylist();
+  }
 }
 
-
 function dragEnter(e) {
-    this.style.backgroundColor = '#444';
+  this.style.backgroundColor = '#444';
 }
 
 function dragLeave(e) {
-    this.style.backgroundColor = '';
+  this.style.backgroundColor = '';
 }
 
-function filterSongs() {
-    let input = document.querySelector(".search-bar").value.toLowerCase();
-    let songs = document.querySelectorAll(".container .song");
+function checkAndResetPlayer() {
+  let playlistContent = document.getElementById("playlistContent");
+  if (playlistContent.children.length === 0) {
+    resetPlayer();
+  }
+}
 
-    songs.forEach(song => {
-        let title = song.querySelector("p").textContent.toLowerCase();
-        song.style.display = title.includes(input) ? "block" : "none";
+function resetPlayer() {
+  document.getElementById("playerTitle").textContent = "No playing";
+  document.getElementById("currentTime").textContent = "0:00";
+  document.getElementById("totalTime").textContent = "0:00";
+  audioElement.pause();
+  audioElement.currentTime = 0;
+  document.getElementById("progressBar").style.width = "0%";
+}
+
+function removeFromPlaylist(button) {
+  button.parentElement.remove();
+  savePlaylist();
+  checkAndResetPlayer();
+}
+
+function savePlaylist() {
+  let songs = [...document.querySelectorAll("#playlistContent .song")].map(song => ({
+    title: song.querySelector("p").textContent,
+    src: song.getAttribute("data-src")
+  }));
+
+  localStorage.setItem("playlist", JSON.stringify(songs));
+  checkAndResetPlayer();
+}
+
+function loadPlaylist() {
+  let storedPlaylist = localStorage.getItem("playlist");
+  if (storedPlaylist) {
+    let playlistContent = document.getElementById("playlistContent");
+    playlistContent.innerHTML = "";
+    JSON.parse(storedPlaylist).forEach(song => {
+      let songDiv = document.createElement("div");
+      songDiv.classList.add("song");
+      songDiv.setAttribute("draggable", "true");
+      songDiv.setAttribute("data-src", song.src);
+      songDiv.innerHTML = `<p>${song.title}</p>
+                           <button onclick="removeFromPlaylist(this)">Retirer</button>`;
+
+      addDragAndDropEvents(songDiv);
+
+      playlistContent.appendChild(songDiv);
     });
+  }
+  checkAndResetPlayer();
 }
 
 // Gestion du lecteur audio
@@ -359,155 +330,87 @@ let currentSongIndex = -1;
 let playlistSongs = [];
 
 function updatePlaylistSongs() {
-    playlistSongs = [...document.querySelectorAll("#playlistContent .song")].map(song => ({
-        title: song.querySelector("p").textContent,
-        src: song.getAttribute("data-src")
-    }));
+  playlistSongs = [...document.querySelectorAll("#playlistContent .song")].map(song => ({
+    title: song.querySelector("p").textContent,
+    src: song.getAttribute("data-src")
+  }));
 }
 
 function playSong(index) {
-    updatePlaylistSongs();
+  updatePlaylistSongs();
 
-    if (playlistSongs.length === 0) return;
+  if (playlistSongs.length === 0) return;
 
-    if (index < 0) index = playlistSongs.length - 1;
-    if (index >= playlistSongs.length) index = 0;
+  if (index < 0) index = playlistSongs.length - 1;
+  if (index >= playlistSongs.length) index = 0;
 
-    currentSongIndex = index;
-    let song = playlistSongs[currentSongIndex];
+  currentSongIndex = index;
+  let song = playlistSongs[currentSongIndex];
 
-    audioElement.src = song.src;
-    playerTitle.textContent = song.title;
-    audioElement.play();
-    playPauseButton.textContent = "⏸";
+  audioElement.src = song.src;
+  playerTitle.textContent = song.title;
+  audioElement.play();
+  playPauseButton.textContent = "⏸";
 }
 
 playPauseButton.addEventListener("click", function () {
-    if (audioElement.paused) {
-        if (currentSongIndex === -1) {
-            playSong(0);
-        } else {
-            audioElement.play();
-        }
-        playPauseButton.textContent = "⏸";
+  if (audioElement.paused) {
+    if (currentSongIndex === -1) {
+      playSong(0);
     } else {
-        audioElement.pause();
-        playPauseButton.textContent = "▶";
+      audioElement.play();
     }
+    playPauseButton.textContent = "⏸";
+  } else {
+    audioElement.pause();
+    playPauseButton.textContent = "▶";
+  }
 });
 
 prevButton.addEventListener("click", function () {
-    if (playlistSongs.length > 0) {
-        playSong(currentSongIndex - 1);
-    }
+  if (playlistSongs.length > 0) {
+    playSong(currentSongIndex - 1);
+  }
 });
 
 nextButton.addEventListener("click", function () {
-    if (playlistSongs.length > 0) {
-        playSong(currentSongIndex + 1);
-    }
+  if (playlistSongs.length > 0) {
+    playSong(currentSongIndex + 1);
+  }
 });
 
 audioElement.addEventListener("ended", function () {
-    if (currentSongIndex !== -1 && playlistSongs[currentSongIndex]) {
-        const finishedTitle = playlistSongs[currentSongIndex].title;
-        addPlayCount(finishedTitle);  // Incrémente si chanson jouée entièrement
-    }
+  if (currentSongIndex !== -1 && playlistSongs[currentSongIndex]) {
+    const finishedTitle = playlistSongs[currentSongIndex].title;
+    addPlayCount(finishedTitle);
+  }
 
-    playSong(currentSongIndex + 1);  // Passe à la suivante
+  playSong(currentSongIndex + 1);
 });
 
-
-// Mise à jour du temps actuel et du temps total
 audioElement.addEventListener("timeupdate", function () {
-    let currentMinutes = Math.floor(audioElement.currentTime / 60);
-    let currentSeconds = Math.floor(audioElement.currentTime % 60);
-    currentTimeDisplay.textContent = `${currentMinutes}:${currentSeconds < 10 ? "0" : ""}${currentSeconds}`;
+  let currentMinutes = Math.floor(audioElement.currentTime / 60);
+  let currentSeconds = Math.floor(audioElement.currentTime % 60);
+  currentTimeDisplay.textContent = `${currentMinutes}:${currentSeconds < 10 ? "0" : ""}${currentSeconds}`;
 
-    let totalMinutes = Math.floor(audioElement.duration / 60);
-    let totalSeconds = Math.floor(audioElement.duration % 60);
-    if (!isNaN(totalMinutes) && !isNaN(totalSeconds)) {
-        totalTimeDisplay.textContent = `${totalMinutes}:${totalSeconds < 10 ? "0" : ""}${totalSeconds}`;
-    }
+  let totalMinutes = Math.floor(audioElement.duration / 60);
+  let totalSeconds = Math.floor(audioElement.duration % 60);
+  if (!isNaN(totalMinutes) && !isNaN(totalSeconds)) {
+    totalTimeDisplay.textContent = `${totalMinutes}:${totalSeconds < 10 ? "0" : ""}${totalSeconds}`;
+  }
 });
 
 let progressContainer = document.getElementById("progressContainer");
 let progressBar = document.getElementById("progressBar");
 
 audioElement.addEventListener("timeupdate", function () {
-    if (audioElement.duration) {
-        let progressPercent = (audioElement.currentTime / audioElement.duration) * 100;
-        progressBar.style.width = progressPercent + "%";
-    }
+  if (audioElement.duration) {
+    let progressPercent = (audioElement.currentTime / audioElement.duration) * 100;
+    progressBar.style.width = progressPercent + "%";
+  }
 });
 
-// Réinitialisation du lecteur audio si la playlist est vide
-function checkAndResetPlayer() {
-    let playlistContent = document.getElementById("playlistContent");
-    if (playlistContent.children.length === 0) {
-        resetPlayer();
-    }
-}
-
-function resetPlayer() {
-    // Réinitialiser le titre
-    document.getElementById("playerTitle").textContent = "No playing";
-
-    // Réinitialiser les temps
-    document.getElementById("currentTime").textContent = "0:00";
-    document.getElementById("totalTime").textContent = "0:00";
-
-    // Arrêter la lecture de la musique
-    audioElement.pause();
-    audioElement.currentTime = 0;
-
-    // Réinitialiser la barre de progression
-    document.getElementById("progressBar").style.width = "0%";
-}
-
-function removeFromPlaylist(button) {
-    button.parentElement.remove();
-    savePlaylist();
-    checkAndResetPlayer(); // Vérifier si la playlist est vide et réinitialiser le lecteur
-}
-
-function savePlaylist() {
-    let songs = [...document.querySelectorAll("#playlistContent .song")].map(song => ({
-        title: song.querySelector("p").textContent,
-        src: song.getAttribute("data-src")
-    }));
-
-    localStorage.setItem("playlist", JSON.stringify(songs));
-
-    // Vérifier si la playlist est vide et réinitialiser le lecteur
-    checkAndResetPlayer();
-}
-
-function loadPlaylist() {
-    let storedPlaylist = localStorage.getItem("playlist");
-    if (storedPlaylist) {
-        let playlistContent = document.getElementById("playlistContent");
-        playlistContent.innerHTML = ""; // Vider la liste avant chargement
-        JSON.parse(storedPlaylist).forEach(song => {
-            let songDiv = document.createElement("div");
-            songDiv.classList.add("song");
-            songDiv.setAttribute("draggable", "true");
-            songDiv.setAttribute("data-src", song.src);
-            songDiv.innerHTML = `<p>${song.title}</p>
-                                 <button onclick="removeFromPlaylist(this)">Retirer</button>`;
-
-            addDragAndDropEvents(songDiv);
-
-            playlistContent.appendChild(songDiv);
-        });
-    }
-
-    // Vérifier si la playlist est vide et réinitialiser le lecteur
-    checkAndResetPlayer();
-}
-
-// Permet à l'utilisateur de cliquer sur la barre pour avancer dans la chanson
 progressContainer.addEventListener("click", function (e) {
-    let clickPosition = (e.offsetX / progressContainer.offsetWidth) * audioElement.duration;
-    audioElement.currentTime = clickPosition;
-});     
+  let clickPosition = (e.offsetX / progressContainer.offsetWidth) * audioElement.duration;
+  audioElement.currentTime = clickPosition;
+});

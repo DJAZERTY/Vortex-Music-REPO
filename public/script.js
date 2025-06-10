@@ -59,7 +59,7 @@ function displaySongs(data) {
     buttonsDiv.classList.add('buttons-div');
     
     const playButton = document.createElement('button'); // Bouton d'ajout pour playlist
-    playButton.textContent = '🎵';
+    playButton.textContent = '➕';
     playButton.addEventListener('click', () => {
     addToPlaylist(song.Title,song.Mp3)
   });

@@ -318,8 +318,8 @@ body{
   border-radius: 12px;
   padding: 5px;
   margin: 20px auto;
-  width: 75%;
-  max-width: 50%;
+  width: 40%;
+  max-width: 40%;
   color: #0ff;
   box-shadow: 0 0 10px #8a00ff88;
   display: flex;
@@ -328,8 +328,8 @@ body{
 }
 
 .stack-box img {
-  width : 75%;
-  height : 75%;
-  vertical-align: middle;
+  width : 100%;
+  height : 100%;
+  border-radius: 12px;
   margin: 0 4px;
 }

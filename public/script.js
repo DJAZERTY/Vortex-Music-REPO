@@ -61,7 +61,8 @@ function displaySongs(data) {
     const playButton = document.createElement('button'); // Bouton d'ajout pour playlist
     playButton.textContent = '➕';
     playButton.addEventListener('click', () => {
-    addToPlaylist(song.Title,song.Mp3)
+    addToPlaylist(song.Title,song.Mp3);
+    alert(`"${song.Title}" ajouté à la playlist 🎵`);
   });
     
     const clipButton = document.createElement('button'); // Bouton (lien) vers clip (Youtube)

@@ -406,7 +406,7 @@ body{
 .sort-select {
   box-shadow: 0 0 7px #0ff; 
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 25px;
   font-family: 'Neon';
   font-size: 20px;
   background-color: #0a0a0a;
@@ -418,7 +418,7 @@ body{
 .sort-order-toggle {
   background-color: #0a0a0a;
   border: none;
-  border-radius: 5px;
+  border-radius: 15px;
   color: black;
   padding: 10px;
   cursor: pointer;

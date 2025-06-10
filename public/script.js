@@ -350,7 +350,7 @@ function playSong(index) {
   audioElement.src = song.src;
   playerTitle.textContent = song.title;
   audioElement.play();
-  playPauseButton.textContent = "⏸";
+  playPauseButton.textContent = "❚❚";
 }
 
 playPauseButton.addEventListener("click", function () {
@@ -360,7 +360,7 @@ playPauseButton.addEventListener("click", function () {
     } else {
       audioElement.play();
     }
-    playPauseButton.textContent = "⏸";
+    playPauseButton.textContent = "❚❚";
   } else {
     audioElement.pause();
     playPauseButton.textContent = "▶";

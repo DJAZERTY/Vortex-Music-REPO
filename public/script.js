@@ -53,7 +53,7 @@ function displaySongs(data) {
     playButton.textContent = '➕';
     playButton.addEventListener('click', () => {
       addToPlaylist(song.Title, song.Mp3);
-      showCustomAlert(`"${song.Title}" ajouté à la playlist 🎵`);
+      showCustomAlert(`"${song.Title}" ajoute a la playlist 🎵`);
     });
 
     const clipButton = document.createElement('button');
@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('sortOrderToggle').addEventListener('click', function() {
     sortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
-    document.getElementById('sortOrderToggle').textContent = sortOrder === 'asc' ? '↑' : '↓';
+    document.getElementById('sortOrderToggle').textContent = sortOrder === 'asc' ? '⬆️' : '⬇️';
     sortSongs();
   });
 });

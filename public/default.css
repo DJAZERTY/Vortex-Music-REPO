@@ -406,4 +406,5 @@ body{
   align-items: center;
   justify-content: center;
   margin-top: 100px;
+  gap : 20px;
 }

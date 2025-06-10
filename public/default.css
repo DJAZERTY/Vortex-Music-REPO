@@ -404,22 +404,26 @@ body{
 /* search bar*/ 
 
 .sort-select {
+  box-shadow: 0 0 7px #0ff; 
   padding: 10px;
   border-radius: 5px;
+  font-family: 'Neon';
+  font-size: 20px;
   background-color: #0a0a0a;
-  color: white;
-  border: 1px solid #0ff;
+  color: #b7b7b7;
   margin-right: 10px;
+  
 }
 
 .sort-order-toggle {
-  background-color: #0ff;
+  background-color: #0a0a0a;
   border: none;
   border-radius: 5px;
   color: black;
   padding: 10px;
   cursor: pointer;
   margin-left: 10px;
+  box-shadow: 0 0 7px #0ff; 
 }
 
 #search-container {

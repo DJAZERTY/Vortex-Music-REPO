@@ -313,7 +313,6 @@ body{
 }
 
 
-
 .stack-box {
   background: rgba(20, 10, 30, 0.9); /* fond sombre légèrement translucide */
   border: 1px solid #8a00ff;
@@ -330,6 +329,16 @@ body{
   transition: background-color 0.4s ease, border-color 0.4s ease; /* Transition pour le fond et la bordure */
 
 }
+
+#last-stack-box {
+  background: black;
+  border: 2px solid black; /* Exemple de style */
+  box-shadow : 0 0 0 0;
+  color : black;
+  font : black;
+  
+}
+
 
 .stack-box:hover{
   background-color: #0ff;

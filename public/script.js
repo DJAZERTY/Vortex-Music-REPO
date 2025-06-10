@@ -28,6 +28,14 @@ document.getElementById('searchBar').addEventListener('input', (event) => {
 });
 
 
+function showCustomAlert(message) {
+  const customAlert = document.getElementById('customAlert');
+  const customAlertMessage = document.getElementById('customAlertMessage');
+  customAlertMessage.textContent = message;
+  customAlert.style.display = 'flex';
+}
+
+
                                         // affiche les chansson dans le browser
 function displaySongs(data) {
   const songList = document.getElementById('songList');
@@ -62,7 +70,7 @@ function displaySongs(data) {
     playButton.textContent = '➕';
     playButton.addEventListener('click', () => {
     addToPlaylist(song.Title,song.Mp3);
-    alert(`"${song.Title}" ajouté à la playlist 🎵`);
+    showCustomAlert(`"${song.Title}" ajoute a la playlist 🎵`);
   });
     
     const clipButton = document.createElement('button'); // Bouton (lien) vers clip (Youtube)

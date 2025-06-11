@@ -106,7 +106,7 @@ body.noscroll {
   display: flex; /* mieux que inline-block pour aligner l’image et les boutons */
   align-items: center;
   justify-content: space-between;
-  width: 95%;
+  width: 85%;
   height: 60px;
   margin: 25px auto;
   padding: 10px;
@@ -172,14 +172,14 @@ body.noscroll {
     margin-top: 0;
     background-color: #0a0a0a;
     overflow-y: auto;
-    padding-bottom: 300px; /* Ajoutez un padding en bas pour éviter que les éléments ne soient cachés */
+    padding-bottom: 150px; /* Ajoutez un padding en bas pour éviter que les éléments ne soient cachés */
 }
 
 #playlistContent .song {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 95%;
+    width: 85%;
     height: 60px;
     margin: 25px auto;
     padding: 10px;
@@ -232,14 +232,17 @@ body.noscroll {
 }
 
 #audioPlayer {
-    margin-bottom: -85px;
-    width: 100%;
+    margin-bottom: -60px;
+    border: 2px solid #0ff; /* Exemple de style */
+    border-radius : 25px;
+    width: 95%;
     background: rgba(0, 0, 0);
     color: white;
     text-align: center;
     position: fixed;
     bottom: 75px;
-    left: 0;
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 3000;
     padding: 10px 0;
 }

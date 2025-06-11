@@ -54,8 +54,6 @@ body{
   top: 0;
   background-color: #0a0a0a;
   z-index: 500;
-  overflow-y: auto; /* Assurez-vous que le conteneur principal permet le défilement */
-
 }
 
 body.noscroll {
@@ -141,6 +139,10 @@ body.noscroll {
     border-radius: 15px;
 }
 
+#browser #songList .song:last-child{
+  margin-bottom: 200px;
+}
+
 /* Style pour la playlist */
 .playlist {
     display: none;
@@ -172,7 +174,8 @@ body.noscroll {
     margin-top: 0;
     background-color: #0a0a0a;
     overflow-y: auto;
-    padding-bottom: 150px; /* Ajoutez un padding en bas pour éviter que les éléments ne soient cachés */
+    padding-bottom: 270px; /* Ajoutez un padding en bas pour éviter que les éléments ne soient cachés */
+    margin-left:-7px;
 }
 
 #playlistContent .song {
@@ -456,4 +459,5 @@ body.noscroll {
   justify-content: center;
   margin-top: 100px;
   gap : 5px;
+  margin-bottom: 20px;
 }

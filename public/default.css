@@ -225,6 +225,41 @@ body.noscroll {
   flex-grow: 1;
 }
 
+.scrolling-text {
+  white-space: nowrap; /* Empêche le texte de revenir à la ligne */
+  overflow: hidden; /* Cache le texte qui dépasse */
+  text-overflow: ellipsis; /* Ajoute des points de suspension pour le texte qui dépasse */
+  display: inline-block; /* Assure que le texte reste en ligne */
+  width: 100%; /* Assure que le texte prend toute la largeur disponible */
+  animation: scrollText 10s linear infinite; /* Animation pour faire défiler le texte */
+}
+
+@keyframes scrollText {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%); /* Défile le texte de la largeur du conteneur */
+  }
+}
+
+/* Appliquez cette classe aux titres dans la playlist et le navigateur */
+#playlistContent .song p,
+#browser #songList .song p {
+  font-family: "Neon";
+  font-size: 30px;
+  color: #0ff;
+  margin: 0;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+#playlistContent .song p.scrolling-text,
+#browser #songList .song p.scrolling-text {
+  animation: scrollText 10s linear infinite;
+}
+
+
 #playlistContent .song:last-child {
   margin-bottom: 100px;
 }

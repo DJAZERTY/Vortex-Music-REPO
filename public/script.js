@@ -23,6 +23,14 @@ function showCustomAlert(message) {
   customAlert.style.display = 'flex';
 }
 
+function checkTextOverflow(element) {
+  if (element.scrollWidth > element.clientWidth) {
+    element.classList.add('scrolling-text');
+  } else {
+    element.classList.remove('scrolling-text');
+  }
+}
+
 function displaySongs(data) {
   const songList = document.getElementById('songList');
   if (!songList) {
@@ -74,6 +82,9 @@ function displaySongs(data) {
     songDiv.appendChild(buttonsDiv);
 
     songList.appendChild(songDiv);
+    
+    checkTextOverflow(title);
+    
   });
 }
 

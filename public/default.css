@@ -7,7 +7,7 @@
 
 body{
  background-color: #0a0a0a;
--ms-overflow-style: non  /* IE et Edge */
+  -ms-overflow-style: non  /* IE et Edge */
  font-family: 'Neon';
 }
 
@@ -131,13 +131,13 @@ body.noscroll {
   font-size: 30px;
 }
 
-#browser #songList .song .buttons-div{
+#browser_button{
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
-#browser #songList .song .buttons-div button, .sim_music{
+#browser_button, .sim_music{
     background-color: #0ff;
     border-radius: 15px;
 }
@@ -238,7 +238,7 @@ body.noscroll {
     align-self:center;
 }
 
-#playlistContent .song #rm_song {
+#playlistContent .song .rm_song {
     background: red;
     border: none;
     padding: 8px 15px;
@@ -253,7 +253,7 @@ body.noscroll {
     margin-right: 20px;
 }
 
-#playlistContent .song #rm_song:hover {
+#playlistContent .song .rm_song:hover {
   background : #fff;
   color: red;
   border : 2px solid red;
@@ -508,4 +508,55 @@ body::-webkit-scrollbar {
   margin-top: 100px;
   gap : 5px;
   margin-bottom: 20px;
+}
+
+/* _________________ scrolling _____________________*/
+
+/* Conteneur pour le texte qui doit défiler */
+.scrolling-text-container {
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+/* Classe pour le texte qui doit défiler */
+.scrolling-text {
+  white-space: nowrap;
+  display: inline-block;
+  animation: scrollText 10s linear infinite;
+}
+
+/* Animation pour le défilement du texte */
+@keyframes scrollText {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Style pour les boutons dans la playlist */
+.buttons-container {
+  display: flex;
+  gap: 5px;
+  margin-left: auto; /* Aligne les boutons à droite */
+}
+
+/* Style pour les images dans le navigateur */
+.song-image {
+  max-width: 80px;
+  max-height: 45px;
+  border-radius: 4px;
+}
+
+/* Assurez-vous que le texte reste sur une seule ligne et utilisez le défilement horizontal si nécessaire */
+#playlistContent .song p,
+#browser #songList .song p {
+  font-family: "Neon";
+  font-size: 30px;
+  color: #0ff;
+  margin: 0;
+  flex-grow: 1;
 }

@@ -209,7 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function addPlayCount(title) {
-  fetch('https://vortex-music-backend.onrender.com/increment', {
+  fetch('https://vortex-music-public.onrender.com/increment', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ title })
